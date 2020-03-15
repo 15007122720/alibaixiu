@@ -42,42 +42,63 @@ $('#avatar').on('change', function () {
 })
 
 //完成用户添加功能（先给表单添加点击事件）
-$('#btnAdd').on('click',function(){
+$('#btnAdd').on('click', function () {
     //serialize()收集表单数据（只对表单对象有用）
     let data = $('form').serialize();
-     // console.log(data);  获取的是字符串
-      
+    // console.log(data);  获取的是字符串
+
     $.ajax({
-      type:'post',
-      url:'/users',
-      data:data,
-       success:function(res){
+        type: 'post',
+        url: '/users',
+        data: data,
+        success: function (res) {
             //console.log(res); //响应回一个对象
             userArr.push(res);//把res对象添加到userArr数组的最后面
             render(); //防止刷新
-          //  数据添加到用户列表后，form表单数据应清空
-          $('input[type="email"]').val('');
-          $('input[name="nickName"]').val('');
-          $('input[name="password"]').val('');
-          $('#status0').prop('checked',false);   //将复选 设置为false 清空 复原
-          $('#status1').prop('checked',false);  //prop()检索属性值
-          $('#admin').prop('checked',false);
-          $('#normal').prop('checked',false);
-          $('#hidden').val('');  //隐藏域 里面的值清空
-          $('#preImg').attr('src','../assets/img/default.png');//把图像换回默认头像
+            //  数据添加到用户列表后，form表单数据应清空
+            $('input[type="email"]').val('');
+            $('input[name="nickName"]').val('');
+            $('input[name="password"]').val('');
+            $('#status0').prop('checked', false);   //将复选 设置为false 清空 复原
+            $('#status1').prop('checked', false);  //prop()检索属性值
+            $('#admin').prop('checked', false);
+            $('#normal').prop('checked', false);
+            $('#hidden').val('');  //隐藏域 里面的值清空
+            $('#preImg').attr('src', '../assets/img/default.png');//把图像换回默认头像
 
-
-
-
-       },error:function(err){
-           console.log(err);
-           
-       }
-
+        }, error: function (err) {
+            console.log(err);
+        }
     })
+});
 
+//给编辑添加注册点击事件，事件委托(将用户列表数据显示在左侧)
+$('tbody').on('click', '.edit', function () {
+    //console.log('ok');
+    $('h2').html('编辑用户'); // 将文字随着点击编辑而更换
+    //获取当前被点击的元素的 父元素tr
+    let tr = $(this).parents('tr');
+    //console.log(tr.find('img').attr('src'));  //找到它的h后代img， 然后获取它的值
+    $('#preImg').attr('src', tr.find('img').attr('src'))//把preImg的src图片用attr方法 替换成 tr的图片
+    $('#hidden').attr('src', tr.find('img').attr('src'));  //更换隐藏域中的值
 
+    // console.log(tr.children().eq(2).text()); //用children([]).eq(index)方法 找到第三个id(邮箱)
+    $('input[name="email"]').val(tr.children().eq(2).text());
+    $('input[name="nickName"]').val(tr.children().eq(3).text());
+    //console.log(tr.children().eq(4).text());  打印出来是数字
+    if (tr.children().eq(4).text() == '激活') {
+        $('#status1').prop('checked', true)         //状态
+    } else {
+        $('#status0').prop('checked', true)   //判断状态为0就是未激活
+    };
 
-
+    if (tr.children().eq(5).text() == '超级管理') {
+        $('#admin').prop('checked', true)                  //判断角色
+    } else {
+        $('#normal').prop('checked', true)
+    }
+  //将添加按钮显示， 编辑按钮隐藏
+  $('#btnAdd').hide();
+  $('#btnEdit').show();
 })
 
