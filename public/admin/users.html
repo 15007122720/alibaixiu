@@ -1,14 +1,15 @@
-<script src="/login/status" ></script>
+<script src="/login/status"></script>
 <script>
-      //console.log(isLogin);  这个方法判断登录状态是true还是false
-      if(!isLogin){
-       location.href = '/admin/login.html';  //不为true就进不去 拦截
-      }
-      
+  //console.log(isLogin);  这个方法判断登录状态是true还是false
+  if (!isLogin) {
+    location.href = '/admin/login.html';  //不为true就进不去 拦截
+  }
+
 </script>
 
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
   <meta charset="utf-8">
   <title>Users &laquo; Admin</title>
@@ -18,6 +19,7 @@
   <link rel="stylesheet" href="../assets/css/admin.css">
   <script src="../assets/vendors/nprogress/nprogress.js"></script>
 </head>
+
 <body>
   <script>NProgress.start()</script>
 
@@ -91,7 +93,7 @@
           </div>
           <table class="table table-striped table-bordered table-hover">
             <thead>
-               <tr>
+              <tr>
                 <th class="text-center" width="40"><input type="checkbox"></th>
                 <th class="text-center" width="80">头像</th>
                 <th>邮箱</th>
@@ -184,7 +186,28 @@
 
   <script src="../assets/vendors/jquery/jquery.js"></script>
   <script src="../assets/vendors/bootstrap/js/bootstrap.js"></script>
-  <script src="../assets/js/commont.js"></script>  <!--  链接退出功能 -->
+  <script src="../assets/js/commont.js"></script> <!--  链接退出功能 -->
+  <script src="../assets/js/user.js"></script> <!-- 显示用户列表 -->
+  <script src="../assets/vendors/art-template/template-web.js"></script><!--  模板引擎 -->
+  <!--  渲染页面模板 -->
+  <script type="text/html" id="userTpl">
+   {{each data}}
+   <tr>
+    <td class="text-center"><input type="checkbox"></td>
+    <td class="text-center"><img class="avatar" src="{{$value.avatar}}"></td>
+    <td>{{$value.email}}</td>
+    <td>{{$value.nickName}}</td>
+    <td>{{$value.status == 1 ? '激活' : '未激活'}}</td>
+    <td>{{$value.role == 'admin' ? '超级管理' : '普通用户'}}</td>
+    <td class="text-center">
+      <a href="javascript:;" class="btn btn-default btn-xs edit">编辑</a>
+      <a href="javascript:;" class="btn btn-danger btn-xs delete">删除</a>
+    </td>
+  </tr>
+  {{/each}}
+  </script>
+
   <script>NProgress.done()</script>
 </body>
+
 </html>
