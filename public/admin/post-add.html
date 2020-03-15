@@ -1,3 +1,11 @@
+<script src="/login/status" ></script>
+<script>
+      //console.log(isLogin);  这个方法判断登录状态是true还是false
+      if(!isLogin){
+       location.href = '/admin/login.html';  //不为true就进不去 拦截
+      }
+      
+</script>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
