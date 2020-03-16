@@ -150,3 +150,30 @@ $('#btnEdit').on('click', function () {
     })
 
 })
+
+//删除单个用户（返回一个对象，删除多个返回数组）
+$('tbody').on('click', '.delete', function () {
+    //alert('kk');  测试代码
+    // 获取当前用户的id
+    let id = $(this).attr('data-id');
+    // console.log(id);//得到id
+
+    if (confirm('您真的要删除吗？')) {
+        $.ajax({
+            type: 'delete',
+            url: '/users/' + id,
+            success: function (res) {
+                //console.log(res);   //返回一个对象
+                let index = userArr.findIndex(item => item._id == res._id);// 响应回的id和我们找寻的id是否一致 
+                // console.log(index);//找到索引
+                userArr.splice(index, 1)  //（删除数组中索引号的id ,1个）
+
+                render();
+            }
+
+        })
+
+    }
+
+
+})

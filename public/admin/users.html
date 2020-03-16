@@ -204,8 +204,8 @@
     <td>{{$value.role == 'admin' ? '超级管理' : '普通用户'}}</td>
     <td class="text-center">                                               <!-- 用来存储当前用户id -->
       <a href="javascript:;" class="btn btn-default btn-xs edit" data-id="{{@$value._id}}">编辑</a>
-      <a href="javascript:;" class="btn btn-danger btn-xs delete">删除</a>
-    </td>
+      <a href="javascript:;" class="btn btn-danger btn-xs delete" data-id="{{@$value._id}}">删除</a>
+    </td>                                                               <!-- 增加自定义属性用来保存用户id -->
   </tr>
   {{/each}}
   </script>
