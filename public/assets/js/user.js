@@ -178,6 +178,12 @@ $('tbody').on('click', '.delete', function () {
 //实现全选功能
 $('thead input').on('click', function () {     //prop() 方法设置或返回被选元素的属性和值
     $('tbody input').prop('checked', $(this).prop('checked'));//获取到所有的单选按钮的状态，并与全选按钮保持一致
+     //获取到所有的单选按钮的状态，并与全选按钮保持一致就显示出  批量删除按钮
+     if($(this).prop('checked')){
+        $('#allDel').show();
+    }else{
+        $('#allDel').hide();
+    }
 })
 
 //全选随单选按钮状态而改变
@@ -227,9 +233,6 @@ $('#allDel').on('click',function(){
         }
    
        })
-
  }
-
-
 
 })
