@@ -151,7 +151,7 @@ $('#btnEdit').on('click', function () {
 
 })
 
-//删除单个用户（返回一个对象，删除多个返回数组）
+//删除单个用户要要事件委托tbody(因为用户是后添加的)（返回一个对象，删除多个返回数组）
 $('tbody').on('click', '.delete', function () {
     //alert('kk');  测试代码
     // 获取当前用户的id
@@ -172,8 +172,64 @@ $('tbody').on('click', '.delete', function () {
             }
 
         })
-
     }
+});
+
+//实现全选功能
+$('thead input').on('click', function () {     //prop() 方法设置或返回被选元素的属性和值
+    $('tbody input').prop('checked', $(this).prop('checked'));//获取到所有的单选按钮的状态，并与全选按钮保持一致
+})
+
+//全选随单选按钮状态而改变
+$('tbody').on('click', '.check', function () {
+    let length = $('.check').length;//拿到tbody里面所有单选按钮的总数量
+    let checklength = $('.check:checked').length;
+    // console.log(length,checklength);  //拿到每个选中的个数
+    //上面复选框是否选中，如果选中的个数与下面单选按钮个数相等 =
+    $('thead input').prop('checked',length === checklength);
+   
+    //如果下面单选按钮大于1就显示批量删除按钮
+    if(checklength > 1){
+        $('#allDel').show();
+    }else{
+        $('#allDel').hide();
+    }
+});
+
+// 给批量删除按钮，添加点击事件
+$('#allDel').on('click',function(){
+   let arrs = [];
+   //需要获取被选中的单选按钮，拿到id 但id值在a标签里面。 需要遍历选中的
+   // console.log(('.check:checked').length); //这是被选中的单选按钮    伪数组   
+   $('.check:checked').each(function(index,item){         //index 索引号， item循环的元素    :加这个是选中的意思
+          // console.log(item);//点击批量删除按钮后， 得到元素
+        //console.log($(item).parents('tr').attr('data-id'));//通过遍历item,它的父节点 拿到id
+        arrs.push($(item).parents('tr').attr('data-id'));  
+          // console.log(arrs);
+   })                 
+ 
+ if(confirm('您真的删除么?')){
+
+    //需要批量删除用户的id已经放在arrs数组里了，
+    $.ajax({
+        type:'delete',
+        url:'/users/' + arrs.join('-'),
+        success:function(res){
+             // console.log(res);//得到一个数组 里面有选中的对象
+            // 因为批量删除它 返回了一个数组 要实现无刷新
+            res.forEach(item=>{
+                   // console.log(item);//item里面的每一项代表一个对象
+                let index = userArr.findIndex(ele=> ele._id == item._id); //item的id 与 选中返回的id对比
+                      userArr.splice(index,1);
+                       render();//页面执行完后重新渲染
+            })
+           
+        }
+   
+       })
+
+ }
+
 
 
 })

@@ -90,9 +90,9 @@
           </form>
         </div>
         <div class="col-md-8">
-          <div class="page-action">
+          <div class="page-action"> 
             <!-- show when multiple checked -->
-            <a class="btn btn-danger btn-sm" href="javascript:;" style="display: none">批量删除</a>
+            <a class="btn btn-danger btn-sm" href="javascript:;" style="display: none" id="allDel">批量删除</a>
           </div>
           <table class="table table-striped table-bordered table-hover">
             <thead>
@@ -195,8 +195,8 @@
   <!--  渲染页面模板 -->
   <script type="text/html" id="userTpl">
    {{each data}}
-   <tr>
-    <td class="text-center"><input type="checkbox"></td>
+   <tr data-id="{{@$value._id}}">
+    <td class="text-center"><input type="checkbox" class='check'></td>
     <td class="text-center"><img class="avatar" src="{{$value.avatar}}"></td>
     <td>{{$value.email}}</td>
     <td>{{$value.nickName}}</td>
