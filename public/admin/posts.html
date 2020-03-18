@@ -37,15 +37,15 @@
         <!-- show when multiple checked -->
         <a class="btn btn-danger btn-sm" href="javascript:;" style="display: none">批量删除</a>
         <form class="form-inline">
-          <select name="" class="form-control input-sm">
-            <option value="">所有分类</option>
+          <select name="" class="form-control input-sm"  id="category">
+            <option value="all">所有分类</option>
           </select>
-          <select name="" class="form-control input-sm">
-            <option value="">所有状态</option>
-            <option value="">草稿</option>
-            <option value="">已发布</option>
+          <select name="" class="form-control input-sm" id="state">
+            <option value="all">所有状态</option>
+            <option value="0">草稿</option>
+            <option value="1">已发布</option>
           </select>
-          <button class="btn btn-default btn-sm">筛选</button>
+          <button class="btn btn-default btn-sm" type="button" id="search">筛选</button>
         </form>
         <ul class="pagination pagination-sm pull-right">
        
@@ -175,9 +175,13 @@
 {{if page != pages}} <!-- 当前页不等于 总页数时就执行下面的代码 -->
 <li><a href="javascript:;" onclick="changePage({{page-0 +1}})">下一页</a></li>
 {{/if}}
+</script>
 
-
-
+<!-- 所有文章分类下拉菜单的模板 -->
+<script type="text/html" id="cTp">
+{{each data}}
+<option value="{{$value._id}}">{{$value.title}}</option>
+{{/each}}
 </script>
 
   <script>NProgress.done()</script>
