@@ -65,39 +65,9 @@
           </tr>
         </thead>
         <tbody>
-        <!--   <tr>
-            <td>随便一个名称</td>
-            <td>小小</td>
-            <td>潮科技</td>
-            <td class="text-center">2016/10/07</td>
-            <td class="text-center">已发布</td>
-            <td class="text-center">
-              <a href="javascript:;" class="btn btn-default btn-xs">编辑</a>
-              <a href="javascript:;" class="btn btn-danger btn-xs">删除</a>
-            </td>
-          </tr>
-          <tr>
-            <td>随便一个名称</td>
-            <td>小小</td>
-            <td>潮科技</td>
-            <td class="text-center">2016/10/07</td>
-            <td class="text-center">已发布</td>
-            <td class="text-center">
-              <a href="javascript:;" class="btn btn-default btn-xs">编辑</a>
-              <a href="javascript:;" class="btn btn-danger btn-xs">删除</a>
-            </td>
-          </tr>
-          <tr>
-            <td>随便一个名称</td>
-            <td>小小</td>
-            <td>潮科技</td>
-            <td class="text-center">2016/10/07</td>
-            <td class="text-center">已发布</td>
-            <td class="text-center">
-              <a href="javascript:;" class="btn btn-default btn-xs">编辑</a>
-              <a href="javascript:;" class="btn btn-danger btn-xs">删除</a>
-            </td>
-          </tr>  -->
+       
+
+          
         </tbody>
       </table>
     </div>
@@ -156,8 +126,8 @@
   <td class="text-center">{{$value.createAt}}</td>
   <td class="text-center">{{$value.state == 0 ? '草稿' : '已发布'}}</td>
   <td class="text-center">
-    <a href="javascript:;" class="btn btn-default btn-xs">编辑</a>
-    <a href="javascript:;" class="btn btn-danger btn-xs">删除</a>
+    <a href="post-add.html?id={{@$value._id}}" class="btn btn-default btn-xs">编辑</a>
+    <a href="javascript:;" class="btn btn-danger btn-xs  del"  data-id="{{@$value._id}}" >删除</a>
   </td>
 </tr>
 {{/each}}

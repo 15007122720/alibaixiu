@@ -1,17 +1,22 @@
-<script src="/login/status" ></script>
+<script src="/login/status"></script>
 <script>
-      //console.log(isLogin);  这个方法判断登录状态是true还是false
-      if(!isLogin){
-       location.href = '/admin/login.html';  //不为true就进不去 拦截
-      }
-      
+  //console.log(isLogin);  这个方法判断登录状态是true还是false
+  if (!isLogin) {
+    location.href = '/admin/login.html';  //不为true就进不去 拦截
+  }
+
 </script>
 
 
 <!DOCTYPE html>
-<html lang="zh-CN">
+
+
+<html lang="en">
+
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Settings &laquo; Admin</title>
   <link rel="stylesheet" href="../assets/vendors/bootstrap/css/bootstrap.css">
   <link rel="stylesheet" href="../assets/vendors/font-awesome/css/font-awesome.css">
@@ -19,6 +24,7 @@
   <link rel="stylesheet" href="../assets/css/admin.css">
   <script src="../assets/vendors/nprogress/nprogress.js"></script>
 </head>
+
 <body>
   <script>NProgress.start()</script>
 
@@ -42,46 +48,54 @@
         <div class="form-group">
           <label for="site_logo" class="col-sm-2 control-label">网站图标</label>
           <div class="col-sm-6">
-            <input id="site_logo" name="site_logo" type="hidden">
+            <!--  <input id="site_logo" name="site_logo" type="hidden"> -->
             <label class="form-image">
               <input id="logo" type="file">
               <img src="../assets/img/logo.png">
               <i class="mask fa fa-upload"></i>
             </label>
           </div>
+          <input type="hidden" name="logo" id="hidden"> <!-- 隐藏域 -->
+
+
         </div>
         <div class="form-group">
           <label for="site_name" class="col-sm-2 control-label">站点名称</label>
           <div class="col-sm-6">
-            <input id="site_name" name="site_name" class="form-control" type="type" placeholder="站点名称">
+            <input id="site_name" name="title" class="form-control" type="type" placeholder="站点名称">
           </div>
         </div>
         <div class="form-group">
           <label for="site_description" class="col-sm-2 control-label">站点描述</label>
           <div class="col-sm-6">
-            <textarea id="site_description" name="site_description" class="form-control" placeholder="站点描述" cols="30" rows="6"></textarea>
+            <textarea id="site_description" name="description" class="form-control" placeholder="站点描述" cols="30"
+              rows="6"></textarea>
           </div>
         </div>
         <div class="form-group">
           <label for="site_keywords" class="col-sm-2 control-label">站点关键词</label>
           <div class="col-sm-6">
-            <input id="site_keywords" name="site_keywords" class="form-control" type="type" placeholder="站点关键词">
+            <input id="site_keywords" name="keywords" class="form-control" type="type" placeholder="站点关键词">
           </div>
         </div>
         <div class="form-group">
           <label class="col-sm-2 control-label">评论</label>
           <div class="col-sm-6">
             <div class="checkbox">
-              <label><input id="comment_status" name="comment_status" type="checkbox" checked>开启评论功能</label>
+              <label><input id="comment_status" type="checkbox" checked>开启评论功能</label>
+              <!-- 保存评论是否开启 -->
+              <input type="hidden" name="comment" id="comment">
             </div>
             <div class="checkbox">
-              <label><input id="comment_reviewed" name="comment_reviewed" type="checkbox" checked>评论必须经人工批准</label>
+              <label><input id="comment_reviewed" type="checkbox" checked>评论必须经人工批准</label>
+              <!-- 保存人工经批准功能 -->
+              <input type="hidden" name="review" id="review">
             </div>
           </div>
         </div>
         <div class="form-group">
           <div class="col-sm-offset-2 col-sm-6">
-            <button type="submit" class="btn btn-primary">保存设置</button>
+            <button type="button" class="btn btn-primary" id="btn">保存设置</button>
           </div>
         </div>
       </form>
@@ -127,7 +141,60 @@
 
   <script src="../assets/vendors/jquery/jquery.js"></script>
   <script src="../assets/vendors/bootstrap/js/bootstrap.js"></script>
-  <script src="../assets/js/commont.js"></script>  <!--  链接退出功能 -->
+  <script src="../assets/js/commont.js"></script> <!--  链接退出功能 -->
+
+
+  <script>
+    //网站设置模块
+    //文件上传功能
+    $('#logo').on('change', function () {
+      let formData = new FormData();  //获取表格数据
+      formData.append('img', this.files[0]);  //追加到当前索引为0的
+      $.ajax({
+        type: 'post',
+        url: '/upload',
+        data: 'formData',
+        processData: false,   //不设置这个
+        contentType: false,
+        success: function (res) {
+          console.log(res);
+          $('img').attr('src', res[0].img);
+          $('#hidden').val(res[0].img);
+        }
+      })
+    });
+
+    //收集输入框数据
+    $('#btn').on('click', function () {
+      // console.log($('#comment_status').prop('checked'));    
+      //console.log($('#comment_reviewed').prop('checked'));
+      $('#comment').val($('#comment_status').prop('checked'));  //判断是否开启评论
+      $('#review').val($('#comment_reviewed').prop('checked'));  //判断是否经过人工批准 得到true false
+
+
+      let data = $('form').serialize(); //serialize() 只会收集带有name属性的控件
+      //console.log(data);
+      $.ajax({
+        type: 'POST',
+        url: '/settings',
+        data: data,
+        success: function (res) {
+          console.log(res);
+          
+          location.reload();
+        }
+      })
+    }) 
+
+
+
+  </script>
+
+
+
+
+
   <script>NProgress.done()</script>
 </body>
+
 </html>
