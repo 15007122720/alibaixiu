@@ -22,3 +22,16 @@ $('#logout').on('click', function () {
 
 
 })
+ //console.log(userId);
+
+ $.ajax({
+     type:'get',
+     url:'/users/'+userId,
+     success:function(res){
+        // console.log(res);  //目前登录的用户账号信息
+        $('.profile img').attr('src',res.avatar);  //用户图像
+        $('.profile h3').attr(res.nickName);   //用户昵称
+         
+     }
+ })
+ 
